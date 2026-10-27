@@ -4,99 +4,130 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Order Management</title>
-
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 30px;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: 30px auto;
-            padding: 25px;
-            background: white;
-            border-radius: 10px;
-        }
-
-        h2 {
-            text-align: center;
-            color: #e65c00;
-        }
-
-        label {
-            display: block;
-            margin-top: 12px;
-        }
-
-        input, select, button {
-            box-sizing: border-box;
-            width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-        }
-
-        button {
-            margin-top: 20px;
-            background: #e65c00;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        #message {
-            text-align: center;
-            color: green;
-        }
-    </style>
+    <title>Foodie | Food Ordering</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/script.js" defer></script>
 </head>
 <body>
+    <header class="navbar">
+        <a href="#menu" class="logo nav-link" data-page="menu">
+            <span class="logo-icon">🍽️</span>
+            <span>Foodie<span class="logo-dot">.</span></span>
+        </a>
 
-    <div class="container">
-        <h2>Food Order Registration</h2>
+        <nav class="nav-links" aria-label="Main navigation">
+            <a href="#menu" class="nav-link active" data-page="menu">Home</a>
+            <a href="#cart" class="nav-link" data-page="cart">
+                Cart <span class="cart-badge" id="cart-count">0</span>
+            </a>
+            <a href="#orders" class="nav-link" data-page="orders">My Orders</a>
+        </nav>
+    </header>
 
-        <form id="registrationForm">
-            <label for="name">Full Name</label>
-            <input type="text" id="name" required>
+    <main>
+        <!-- HOME / MENU PAGE -->
+        <section class="page active" id="menu">
+            <div class="container">
+                <section class="hero">
+                    <div class="hero-content">
+                        <span class="eyebrow">Fresh · Tasty · Delivered</span>
+                        <h1>Good food.<br><span>Good mood.</span></h1>
+                        <p>
+                            Your favourite meals, freshly prepared and ready
+                            to make your day delicious.
+                        </p>
+                        <button class="primary-button" id="explore-menu">
+                            Explore Menu →
+                        </button>
+                    </div>
 
-            <label for="email">Email</label>
-            <input type="email" id="email" required>
+                    <img
+                        class="hero-image"
+                        src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=800&q=80"
+                        alt="Freshly prepared pizza"
+                    >
+                </section>
 
-            <label for="phone">Phone Number</label>
-            <input type="tel" id="phone" pattern="[0-9]{10}"
-                   maxlength="10" required>
+                <div class="section-heading">
+                    <div>
+                        <span class="eyebrow">Made for you</span>
+                        <h2>Our Popular Menu</h2>
+                        <p>Choose your favourites and add them to your cart.</p>
+                    </div>
+                </div>
 
-            <label for="food">Choose Food</label>
-            <select id="food" required>
-                <option value="">Select an item</option>
-                <option value="Pizza">Pizza</option>
-                <option value="Burger">Burger</option>
-                <option value="Biryani">Biryani</option>
-                <option value="Dosa">Dosa</option>
-            </select>
+                <div class="food-grid" id="menu-grid">
+                    <p class="loading">Loading delicious food...</p>
+                </div>
+            </div>
+        </section>
 
-            <button type="submit">Register Order</button>
-        </form>
+        <!-- CART PAGE -->
+        <section class="page" id="cart">
+            <div class="container">
+                <span class="eyebrow">Almost there</span>
+                <h1 class="page-title">Your Cart</h1>
+                <p class="page-subtitle">Review your items before placing an order.</p>
 
-        <p id="message"></p>
-    </div>
+                <div class="cart-layout">
+                    <div class="cart-panel">
+                        <h2>Cart Items</h2>
+                        <div id="cart-items">
+                            <p class="empty-message">Your cart is empty.</p>
+                        </div>
+                    </div>
 
-    <script>
-        document.getElementById("registrationForm")
-            .addEventListener("submit", function(event) {
-                event.preventDefault();
+                    <aside class="checkout-panel">
+                        <h2>Order Summary</h2>
 
-                const name = document.getElementById("name").value;
-                const food = document.getElementById("food").value;
+                        <label for="customer-name">Your name</label>
+                        <input
+                            type="text"
+                            id="customer-name"
+                            placeholder="Enter your name"
+                            maxlength="100"
+                            autocomplete="name"
+                        >
 
-                document.getElementById("message").textContent =
-                    "Thank you, " + name +
-                    "! Your " + food + " order is registered.";
-            });
-    </script>
+                        <div class="total-row">
+                            <span>Total Amount</span>
+                            <strong id="cart-total">₹0.00</strong>
+                        </div>
 
+                        <button
+                            class="primary-button checkout-button"
+                            id="checkout-button"
+                            type="button"
+                        >
+                            Place Order
+                        </button>
+
+                        <p class="checkout-note">
+                            Your order will be saved to the database.
+                        </p>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <!-- MY ORDERS PAGE -->
+        <section class="page" id="orders">
+            <div class="container">
+                <span class="eyebrow">Your food journey</span>
+                <h1 class="page-title">My Orders</h1>
+                <p class="page-subtitle">
+                    View the orders placed through Foodie.
+                </p>
+
+                <div class="orders-list" id="orders-list">
+                    <p class="loading">Loading your orders...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>Made with ♥ for food lovers · Foodie</p>
+    </footer>
 </body>
 </html>

@@ -15,7 +15,15 @@ spec:
     spec:
       containers:
         - name: food-order-container
-          image: food-order-management:v1
+          image: food-order-management:v2
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 80
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: MONGODB_URI
+              valueFrom:
+                secretKeyRef:
+                  name: foodorder-secrets
+                  key: mongodb-uri

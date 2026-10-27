@@ -1,8 +1,14 @@
 
-FROM nginx:alpine
+FROM node:22-alpine
 
-COPY index.html /usr/share/nginx/html/index.html
-COPY style.css /usr/share/nginx/html/style.css
-COPY script.js /usr/share/nginx/html/script.js
+WORKDIR /app
 
-EXPOSE 80
+COPY package*.json ./
+
+RUN npm install --omit=dev
+
+COPY index.html style.css script.js server.js ./
+
+EXPOSE 3000
+
+CMD ["npm", "start"]
